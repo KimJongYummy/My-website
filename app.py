@@ -5,11 +5,11 @@ import os
 from datetime import datetime
 from werkzeug.utils import secure_filename
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates', static_folder='static')
 app.config['SECRET_KEY'] = 'secret!'
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['GAMES_FOLDER'] = 'games'
-socketio = SocketIO(app)
+socketio = SocketIO(app, async_mode='eventlet')
 
 # Create directories
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
