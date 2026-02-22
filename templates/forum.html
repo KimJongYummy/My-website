@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum - RetroNet</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Title Bar -->
+    <div class="title-bar">
+        <div class="title-text">📝 Forums - RetroNet</div>
+    </div>
+
+    <!-- Tab Bar -->
+    <div class="tab-bar">
+        <a href="/" class="tab">🏠 Home</a>
+        <a href="/chat" class="tab">💬 Chat</a>
+        <a href="/voice" class="tab">🎤 Voice</a>
+        <a href="/images" class="tab">🖼️ Images</a>
+        <a href="/forum" class="tab active">📝 Forum</a>
+        <a href="/games" class="tab">🎮 Games</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="window">
+            <div class="window-title">
+                📝 Forum
+                <button id="new-post-btn" class="btn-small">+ New Post</button>
+            </div>
+            <div class="window-body">
+                <!-- New Post Form -->
+                <div id="new-post-form" class="new-post-form" style="display: none;">
+                    <input type="text" id="post-category" placeholder="Category (e.g., General, Tech, Gaming)">
+                    <input type="text" id="post-title" placeholder="Title">
+                    <textarea id="post-content" placeholder="Write your post..."></textarea>
+                    <input type="text" id="post-author" placeholder="Your name">
+                    <button id="submit-post" class="btn">Submit Post</button>
+                </div>
+
+                <!-- Posts List -->
+                <div id="posts"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span>Forum loaded</span>
+        <span id="time"></span>
+    </div>
+
+    <script src="/static/forum.js"></script>
+    <script>
+        function updateTime() {
+            document.getElementById('time').textContent = new Date().toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>

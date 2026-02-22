@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Images - RetroNet</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <!-- Title Bar -->
+    <div class="title-bar">
+        <div class="title-text">🖼️ Image Share - RetroNet</div>
+    </div>
+
+    <!-- Tab Bar -->
+    <div class="tab-bar">
+        <a href="/" class="tab">🏠 Home</a>
+        <a href="/chat" class="tab">💬 Chat</a>
+        <a href="/voice" class="tab">🎤 Voice</a>
+        <a href="/images" class="tab active">🖼️ Images</a>
+        <a href="/forum" class="tab">📝 Forum</a>
+        <a href="/games" class="tab">🎮 Games</a>
+    </div>
+
+    <!-- Image Sub-Tab -->
+    <div class="sub-tab-bar">
+        <a href="/chat" class="sub-tab">💬 Text</a>
+        <a href="/voice" class="sub-tab">🎤 Voice</a>
+        <a href="/images" class="sub-tab active">🖼️ Images</a>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <div class="window-title">
+                Share Images
+                <button id="close-modal" class="btn-close" title="Close">×</button>
+            </div>
+            <div class="window-body">
+                <p>Choose a username:</p>
+                <input type="text" id="username-input" placeholder="Enter username..." maxlength="20">
+                <button id="join-btn" class="btn">Join</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content image-content">
+        <!-- Upload Area -->
+        <div class="window upload-area">
+            <div class="window-title">📤 Upload Image</div>
+            <div class="window-body">
+                <div id="drop-zone" class="drop-zone">
+                    <p>🖼️ <strong>Drag & Drop</strong> images here</p>
+                    <p class="small">or click to browse</p>
+                    <input type="file" id="file-input" accept=".jpg,.jpeg,.png,.gif,.webp,.bmp" style="display: none;">
+                </div>
+                <p class="small formats">Supported: JPG, PNG, GIF, WebP, BMP</p>
+            </div>
+        </div>
+
+        <!-- Images Gallery -->
+        <div class="window gallery-area">
+            <div class="window-title">🖼️ Shared Images</div>
+            <div class="window-body">
+                <div id="images-grid" class="images-grid">
+                    <!-- Images will appear here -->
+                    <div class="empty-gallery">
+                        <p>No images shared yet.</p>
+                        <p class="small">Be the first to share!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span id="connection-status">Not connected</span>
+        <span id="image-count">0 images</span>
+    </div>
+
+    <script src="/static/images.js"></script>
+</body>
+</html>

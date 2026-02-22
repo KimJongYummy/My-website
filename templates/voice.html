@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice - RetroNet</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <!-- Title Bar -->
+    <div class="title-bar">
+        <div class="title-text">🎤 Voice Chat - RetroNet</div>
+    </div>
+
+    <!-- Tab Bar -->
+    <div class="tab-bar">
+        <a href="/" class="tab">🏠 Home</a>
+        <a href="/chat" class="tab">💬 Chat</a>
+        <a href="/voice" class="tab active">🎤 Voice</a>
+        <a href="/images" class="tab">🖼️ Images</a>
+        <a href="/forum" class="tab">📝 Forum</a>
+        <a href="/games" class="tab">🎮 Games</a>
+    </div>
+
+    <!-- Voice Sub-Tab -->
+    <div class="sub-tab-bar">
+        <a href="/chat" class="sub-tab">💬 Text</a>
+        <a href="/voice" class="sub-tab active">🎤 Voice</a>
+        <a href="/images" class="sub-tab">🖼️ Images</a>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <div class="window-title">
+                Join Voice Channel
+                <button id="close-modal" class="btn-close" title="Close">×</button>
+            </div>
+            <div class="window-body">
+                <p>Choose a username:</p>
+                <input type="text" id="username-input" placeholder="Enter username..." maxlength="20">
+                <button id="join-btn" class="btn">Join Voice</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content voice-content">
+        <!-- Voice Channels -->
+        <div class="window channels">
+            <div class="window-title">📢 Voice Channels</div>
+            <div class="window-body">
+                <div class="channel active" data-channel="general">
+                    <span class="channel-icon">🔊</span>
+                    <span>General</span>
+                </div>
+                <div class="channel" data-channel="gaming">
+                    <span class="channel-icon">🎮</span>
+                    <span>Gaming</span>
+                </div>
+                <div class="channel" data-channel="music">
+                    <span class="channel-icon">🎵</span>
+                    <span>Music</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Voice Area -->
+        <div class="window voice-area">
+            <div class="window-title">
+                <span id="current-channel">🔊 General</span>
+            </div>
+            <div class="window-body">
+                <div id="voice-users" class="voice-users">
+                    <!-- Users will appear here -->
+                    <div class="voice-empty">
+                        <p>No one in this channel yet.</p>
+                        <p class="small">Join to start talking!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Controls -->
+        <div class="window user-controls">
+            <div class="window-title">🎤 Your Controls</div>
+            <div class="window-body">
+                <div class="user-card">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-info">
+                        <div id="your-name">Guest</div>
+                        <div class="user-status" id="mic-status">🎤 Mic Off</div>
+                    </div>
+                </div>
+                
+                <div class="control-buttons">
+                    <button id="mute-btn" class="voice-btn" title="Toggle Mute">
+                        <span id="mute-icon">🔇</span>
+                        <span id="mute-text">Mute</span>
+                    </button>
+                    
+                    <button id="deafen-btn" class="voice-btn" title="Toggle Deafen">
+                        <span id="deafen-icon">🔊</span>
+                        <span id="deafen-text">Deafen</span>
+                    </button>
+                    
+                    <button id="settings-btn" class="voice-btn" title="Settings">
+                        ⚙️ Settings
+                    </button>
+                    
+                    <button id="leave-btn" class="voice-btn leave" title="Leave Channel">
+                        📴 Leave
+                    </button>
+                </div>
+                
+                <!-- Hotkey Settings -->
+                <div class="hotkey-settings">
+                    <h4>🎹 Hotkeys</h4>
+                    <div class="hotkey-row">
+                        <span>Push to Talk:</span>
+                        <input type="text" id="ptt-key" value="Space" readonly placeholder="Click to set">
+                    </div>
+                    <div class="hotkey-row">
+                        <span>Mute Toggle:</span>
+                        <input type="text" id="mute-key" value="M" readonly placeholder="Click to set">
+                    </div>
+                    <p class="small">Click input field, then press key to set</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span id="voice-status">Not connected to voice</span>
+        <span id="channel-status">Channel: None</span>
+    </div>
+
+    <script src="/static/voice.js"></script>
+</body>
+</html>

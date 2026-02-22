@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games - RetroNet</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/ruffle@latest/ruffle.js"></script>
+</head>
+<body>
+    <!-- Title Bar -->
+    <div class="title-bar">
+        <div class="title-text">🎮 Flash Games - RetroNet</div>
+    </div>
+
+    <!-- Tab Bar -->
+    <div class="tab-bar">
+        <a href="/" class="tab">🏠 Home</a>
+        <a href="/chat" class="tab">💬 Chat</a>
+        <a href="/voice" class="tab">🎤 Voice</a>
+        <a href="/images" class="tab">🖼️ Images</a>
+        <a href="/forum" class="tab">📝 Forum</a>
+        <a href="/games" class="tab active">🎮 Games</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="window">
+            <div class="window-title">🎮 Flash Games Arcade</div>
+            <div class="window-body">
+                <!-- Drop Zone -->
+                <div id="drop-zone" class="drop-zone">
+                    <p>💾 <strong>Drag & Drop</strong> .swf files here to play!</p>
+                    <p class="small">or click to browse</p>
+                    <input type="file" id="file-input" accept=".swf" style="display: none;">
+                </div>
+
+                <!-- Game Container -->
+                <div id="game-container" class="game-container" style="display: none;">
+                    <div class="game-header">
+                        <span id="game-title">Game Title</span>
+                        <button id="close-game" class="btn-small">× Close</button>
+                    </div>
+                    <div id="ruffle-container"></div>
+                </div>
+
+                <!-- Instructions -->
+                <div class="instructions">
+                    <h3>📋 How to Play</h3>
+                    <ol>
+                        <li>Drag and drop a .swf file onto the drop zone above</li>
+                        <li>Or click the drop zone to browse for files</li>
+                        <li>Wait for Ruffle to load the game</li>
+                        <li>Click inside the game to activate controls</li>
+                    </ol>
+                    <p class="small">Note: Some games may not work perfectly. This uses Ruffle, the Flash emulator.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span>Ruffle Flash Emulator Ready</span>
+        <span id="time"></span>
+    </div>
+
+    <script src="/static/games.js"></script>
+    <script>
+        function updateTime() {
+            document.getElementById('time').textContent = new Date().toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>

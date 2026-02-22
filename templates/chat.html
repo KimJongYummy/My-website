@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - RetroNet</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <!-- Title Bar -->
+    <div class="title-bar">
+        <div class="title-text">💬 Chat - RetroNet</div>
+    </div>
+
+    <!-- Tab Bar -->
+    <div class="tab-bar">
+        <a href="/" class="tab">🏠 Home</a>
+        <a href="/chat" class="tab active">💬 Chat</a>
+        <a href="/voice" class="tab">🎤 Voice</a>
+        <a href="/images" class="tab">🖼️ Images</a>
+        <a href="/forum" class="tab">📝 Forum</a>
+        <a href="/games" class="tab">🎮 Games</a>
+    </div>
+
+    <!-- Chat Sub-Tabs -->
+    <div class="sub-tab-bar">
+        <a href="/chat" class="sub-tab active">💬 Text</a>
+        <a href="/voice" class="sub-tab">🎤 Voice</a>
+        <a href="/images" class="sub-tab">🖼️ Images</a>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <div class="window-title">
+                Enter Chat
+                <button id="close-modal" class="btn-close" title="Close">×</button>
+            </div>
+            <div class="window-body">
+                <p>Choose a username:</p>
+                <input type="text" id="username-input" placeholder="Enter username..." maxlength="20">
+                <button id="join-btn" class="btn">Join</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content chat-content">
+        <!-- Chat Window -->
+        <div class="window chat-window">
+            <div class="window-title">💬 General Chat</div>
+            <div class="window-body">
+                <div id="messages" class="messages"></div>
+            </div>
+        </div>
+
+        <!-- User List -->
+        <div class="window user-list">
+            <div class="window-title">👥 Users</div>
+            <div class="window-body">
+                <div id="users"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-area">
+        <input type="text" id="message-input" placeholder="Type a message..." disabled>
+        <button id="send-btn" class="btn" disabled>Send</button>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span id="connection-status">Disconnected</span>
+    </div>
+
+    <script src="/static/chat.js"></script>
+</body>
+</html>

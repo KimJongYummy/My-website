@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetroNet - Dark Mode</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Title Bar -->
+    <div class="title-bar">
+        <div class="title-text">📁 RetroNet - Welcome</div>
+    </div>
+
+    <!-- Tab Bar -->
+    <div class="tab-bar">
+        <a href="/" class="tab">🏠 Home</a>
+        <a href="/chat" class="tab">💬 Chat</a>
+        <a href="/voice" class="tab">🎤 Voice</a>
+        <a href="/images" class="tab">🖼️ Images</a>
+        <a href="/forum" class="tab">📝 Forum</a>
+        <a href="/games" class="tab">🎮 Games</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="window">
+            <div class="window-title">Welcome to RetroNet</div>
+            <div class="window-body">
+                <h2>🌐 Welcome to the Underground</h2>
+                <p>Step into the past. A simple, no-frills chat experience from the golden era of the internet.</p>
+                
+                <div class="button-group">
+                    <a href="/chat" class="btn">💬 Enter Chat Room</a>
+                    <a href="/forum" class="btn">📝 Browse Forums</a>
+                    <a href="/games" class="btn">🎮 Play Games</a>
+                </div>
+                
+                <h3>📰 Latest News</h3>
+                <ul>
+                    <li><strong>Feb 2026</strong> - RetroNet is now live!</li>
+                    <li><strong>Feb 2026</strong> - Voice chat beta testing</li>
+                    <li><strong>Feb 2026</strong> - Forum categories now open!</li>
+                </ul>
+                
+                <h3>📊 Statistics</h3>
+                <table class="stats-table">
+                    <tr><td>Members Online</td><td>1</td></tr>
+                    <tr><td>Total Messages</td><td id="msg-count">Loading...</td></tr>
+                    <tr><td>Forum Posts</td><td id="forum-count">Loading...</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span>Connected to RetroNet</span>
+        <span id="time"></span>
+    </div>
+
+    <script src="/static/script.js"></script>
+    <script>
+        // Update time
+        function updateTime() {
+            document.getElementById('time').textContent = new Date().toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Load stats
+        fetch('/api/messages').then(r => r.json()).then(d => {
+            document.getElementById('msg-count').textContent = d.length;
+        });
+        fetch('/api/forum').then(r => r.json()).then(d => {
+            document.getElementById('forum-count').textContent = d.length;
+        });
+    </script>
+</body>
+</html>
