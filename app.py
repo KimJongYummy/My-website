@@ -73,6 +73,9 @@ def uploaded_file(filename):
 # Serve games
 @app.route('/games/<filename>')
 def game_file(filename):
+    # Set correct MIME type for SWF files
+    if filename.endswith('.swf'):
+        return send_from_directory(app.config['GAMES_FOLDER'], filename, mimetype='application/x-shockwave-flash')
     return send_from_directory(app.config['GAMES_FOLDER'], filename)
 
 # API: Get list of games

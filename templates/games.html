@@ -5,7 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Games - RetroNet</title>
     <link rel="stylesheet" href="/static/style.css">
-    <script src="https://unpkg.com/@ruffle-rs/ruffle@0.1.0-nightly.2024.12.17/ruffle.js"></script>
+    
+    <!-- Initialize namespace FIRST -->
+    <script>
+        window.RufflePlayer = window.RufflePlayer || {};
+    </script>
+    
+    <!-- Load Ruffle from jsdelivr (working CDN) -->
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 </head>
 <body>
     <!-- Title Bar -->
@@ -26,20 +33,10 @@
     <!-- Main Content -->
     <div class="content">
         <div class="window">
-            <div class="window-title">🎮 Game Library</div>
-            <div class="window-body">
-                <!-- Game List -->
+            <div class="window-title" id="window-title">🎮 Click a Game to Play</div>
+            <div class="window-body" id="game-area">
                 <div id="game-list" class="game-list">
                     <p>Loading games...</p>
-                </div>
-
-                <!-- Game Container -->
-                <div id="game-container" class="game-container" style="display: none;">
-                    <div class="game-header">
-                        <span id="game-title">Game Title</span>
-                        <button id="back-to-list" class="btn-small">← Back to Games</button>
-                    </div>
-                    <div id="game-frame"></div>
                 </div>
             </div>
         </div>
