@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Games - RetroNet</title>
     <link rel="stylesheet" href="/static/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/ruffle@latest/ruffle.js"></script>
+    <script src="https://unpkg.com/@ruffle-rs/ruffle@0.1.0-nightly.2024.12.17/ruffle.js"></script>
 </head>
 <body>
     <!-- Title Bar -->
     <div class="title-bar">
-        <div class="title-text">🎮 Flash Games - RetroNet</div>
+        <div class="title-text">🎮 Games - RetroNet</div>
     </div>
 
     <!-- Tab Bar -->
@@ -26,34 +26,20 @@
     <!-- Main Content -->
     <div class="content">
         <div class="window">
-            <div class="window-title">🎮 Flash Games Arcade</div>
+            <div class="window-title">🎮 Game Library</div>
             <div class="window-body">
-                <!-- Drop Zone -->
-                <div id="drop-zone" class="drop-zone">
-                    <p>💾 <strong>Drag & Drop</strong> .swf files here to play!</p>
-                    <p class="small">or click to browse</p>
-                    <input type="file" id="file-input" accept=".swf" style="display: none;">
+                <!-- Game List -->
+                <div id="game-list" class="game-list">
+                    <p>Loading games...</p>
                 </div>
 
                 <!-- Game Container -->
                 <div id="game-container" class="game-container" style="display: none;">
                     <div class="game-header">
                         <span id="game-title">Game Title</span>
-                        <button id="close-game" class="btn-small">× Close</button>
+                        <button id="back-to-list" class="btn-small">← Back to Games</button>
                     </div>
-                    <div id="ruffle-container"></div>
-                </div>
-
-                <!-- Instructions -->
-                <div class="instructions">
-                    <h3>📋 How to Play</h3>
-                    <ol>
-                        <li>Drag and drop a .swf file onto the drop zone above</li>
-                        <li>Or click the drop zone to browse for files</li>
-                        <li>Wait for Ruffle to load the game</li>
-                        <li>Click inside the game to activate controls</li>
-                    </ol>
-                    <p class="small">Note: Some games may not work perfectly. This uses Ruffle, the Flash emulator.</p>
+                    <div id="game-frame"></div>
                 </div>
             </div>
         </div>
@@ -61,7 +47,7 @@
 
     <!-- Status Bar -->
     <div class="status-bar">
-        <span>Ruffle Flash Emulator Ready</span>
+        <span id="status">Loading...</span>
         <span id="time"></span>
     </div>
 

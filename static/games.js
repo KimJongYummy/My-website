@@ -1,93 +1,106 @@
-// Flash Games functionality
-let ruffle;
-let currentPlayer = null;
+// Games functionality
+let ruffle = null;
+let currentGame = null;
 
-// Initialize Ruffle
+// Initialize
 document.addEventListener('DOMContentLoaded', async () => {
     // Load Ruffle
-    if (window.RufflePlayer) {
-        ruffle = window.RufflePlayer.newest();
-        console.log('Ruffle loaded');
+    try {
+        if (window.RufflePlayer) {
+            ruffle = window.RufflePlayer;
+            console.log('Ruffle loaded');
+        }
+    } catch (e) {
+        console.error('Ruffle error:', e);
     }
     
-    // Setup drop zone
-    const dropZone = document.getElementById('drop-zone');
-    const fileInput = document.getElementById('file-input');
+    // Load game list
+    loadGameList();
     
-    // Click to browse
-    dropZone.addEventListener('click', () => {
-        fileInput.click();
+    // Back to list button
+    document.getElementById('back-to-list').addEventListener('click', () => {
+        showGameList();
     });
-    
-    // Drag and drop
-    dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.classList.add('dragover');
-    });
-    
-    dropZone.addEventListener('dragleave', () => {
-        dropZone.classList.remove('dragover');
-    });
-    
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('dragover');
-        
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            loadGame(files[0]);
-        }
-    });
-    
-    // File input change
-    fileInput.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) {
-            loadGame(e.target.files[0]);
-        }
-    });
-    
-    // Close game button
-    document.getElementById('close-game').addEventListener('click', closeGame);
 });
 
-function loadGame(file) {
-    if (!file.name.toLowerCase().endsWith('.swf')) {
-        alert('Please drop a .swf file');
+function loadGameList() {
+    fetch('/api/games')
+        .then(r => r.json())
+        .then(games => {
+            renderGameList(games);
+            document.getElementById('status').textContent = games.length + ' games available';
+        })
+        .catch(err => {
+            console.error('Error loading games:', err);
+            document.getElementById('game-list').innerHTML = '<p>Error loading games</p>';
+            document.getElementById('status').textContent = 'Error';
+        });
+}
+
+function renderGameList(games) {
+    const container = document.getElementById('game-list');
+    
+    if (games.length === 0) {
+        container.innerHTML = `
+            <div class="no-games">
+                <p>🎮 No games yet!</p>
+                <p class="small">Ask the admin to add games to the games folder</p>
+            </div>
+        `;
         return;
     }
     
-    // Show game container
-    document.getElementById('drop-zone').style.display = 'none';
-    document.getElementById('game-container').style.display = 'block';
-    document.getElementById('game-title').textContent = file.name;
+    container.innerHTML = games.map(game => `
+        <div class="game-card" onclick="playGame('${game.filename}', '${game.type}')">
+            <div class="game-icon">${game.type === 'swf' ? '⚡' : '🌐'}</div>
+            <div class="game-name">${game.name}</div>
+        </div>
+    `).join('');
+}
+
+function playGame(filename, type) {
+    currentGame = filename;
     
-    // Load game with Ruffle
-    const container = document.getElementById('ruffle-container');
+    // Hide list, show game
+    document.getElementById('game-list').style.display = 'none';
+    document.getElementById('game-container').style.display = 'block';
+    document.getElementById('game-title').textContent = filename;
+    
+    const container = document.getElementById('game-frame');
     container.innerHTML = '';
     
-    if (ruffle) {
+    if (type === 'swf') {
+        // Load Flash game with Ruffle
+        if (!ruffle) {
+            container.innerHTML = '<p style="color:red">Ruffle not loaded yet. Try again in a moment.</p>';
+            return;
+        }
+        
         const player = ruffle.createPlayer();
         container.appendChild(player);
         
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            player.load(e.target.result);
-        };
-        reader.readAsArrayBuffer(file);
-        currentPlayer = player;
+        // Load the SWF file
+        fetch('/games/' + filename)
+            .then(r => r.arrayBuffer())
+            .then(data => {
+                player.load(data).catch(err => {
+                    container.innerHTML = '<p style="color:red">Error loading game: ' + err.message + '</p>';
+                });
+            })
+            .catch(err => {
+                container.innerHTML = '<p style="color:red">Error: ' + err.message + '</p>';
+            });
     } else {
-        container.innerHTML = '<p style="color: red;">Ruffle failed to load. Please refresh and try again.</p>';
+        // Load HTML game in iframe
+        container.innerHTML = `<iframe src="/games/${filename}" frameborder="0" class="game-iframe"></iframe>`;
     }
+    
+    document.getElementById('status').textContent = 'Playing: ' + filename;
 }
 
-function closeGame() {
-    document.getElementById('drop-zone').style.display = 'block';
+function showGameList() {
+    document.getElementById('game-list').style.display = 'block';
     document.getElementById('game-container').style.display = 'none';
-    
-    if (currentPlayer) {
-        currentPlayer = null;
-    }
-    
-    document.getElementById('ruffle-container').innerHTML = '';
-    document.getElementById('file-input').value = '';
+    document.getElementById('status').textContent = 'Game library';
+    currentGame = null;
 }

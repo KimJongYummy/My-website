@@ -8,10 +8,12 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['GAMES_FOLDER'] = 'games'
 socketio = SocketIO(app)
 
-# Create uploads directory
+# Create directories
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+os.makedirs(app.config['GAMES_FOLDER'], exist_ok=True)
 
 # Data files
 MESSAGES_FILE = 'messages.json'
@@ -67,6 +69,28 @@ def games():
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+# Serve games
+@app.route('/games/<filename>')
+def game_file(filename):
+    return send_from_directory(app.config['GAMES_FOLDER'], filename)
+
+# API: Get list of games
+@app.route('/api/games')
+def get_games():
+    games_folder = app.config['GAMES_FOLDER']
+    games = []
+    
+    if os.path.exists(games_folder):
+        for file in os.listdir(games_folder):
+            if file.endswith(('.swf', '.html', '.htm')):
+                games.append({
+                    'name': file,
+                    'filename': file,
+                    'type': 'swf' if file.endswith('.swf') else 'html'
+                })
+    
+    return jsonify(games)
 
 # API: Get messages
 @app.route('/api/messages')
